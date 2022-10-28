@@ -9,11 +9,16 @@
     <div class="sidebar">
         <NavMenu />
     </div>
-
     <main>
         <div class="top-row px-4">
-
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            @if (servise.GetUser() == null)
+            {
+                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            }
+            else
+            {
+                <a href="Profile">@servise.GetUser().FirstName @servise.GetUser().LastName</a>
+            }
         </div>
 
         <article class="content px-4">
@@ -21,3 +26,4 @@
         </article>
     </main>
 </div>
+

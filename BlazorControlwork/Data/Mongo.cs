@@ -6,6 +6,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson.Serialization;
+using MongoDB.Driver.GridFS;
 
 namespace BlazorControlwork.Data
 {
@@ -41,5 +42,28 @@ namespace BlazorControlwork.Data
             }
             return users;
         }
+
+        //public static void UploadImageToDb()
+        //{
+        //    var client = new MongoClient("UserBase");
+        //    var database = client.GetDatabase("User");
+        //    var gridFS = new GridFSBucket(database);
+
+        //    using (FileStream fs = new FileStream("C:/Users/Vadim.Nacharov/Desktop/images321/ball.jpg", FileMode.Open))
+        //    {
+        //        gridFS.UploadFromStream("sss.jpg", fs);
+        //    }
+        //}
+
+        //public static void DownloadToLocal()
+        //{
+        //    var client = new MongoClient("mongodb://localhost");
+        //    var database = client.GetDatabase("Images321");
+        //    var gridFS = new GridFSBucket(database);
+        //    using (FileStream fs = new FileStream($"{Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/Images/")}DeserializedBall.jpg", FileMode.CreateNew))
+        //    {
+        //        gridFS.DownloadToStreamByName("sss.jpg", fs);
+        //    }
+        //}
     }
 }

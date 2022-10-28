@@ -33,6 +33,9 @@ namespace BlazorControlwork.Data
         [BsonIgnoreIfNull]
         public string Password { get; set; }
 
+        [BsonIgnoreIfNull]
+        public string Photo { get; set; }
+
 
     }
 }
