@@ -72,7 +72,8 @@
 
     private void ChangePhoto()
     {
-        
+        FileSystemService fs = new FileSystemService();
+        fs.UploadImageToDb();
     }
 
     private void LogOut()
