@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver.GridFS;
+using DnsClient;
 
 namespace BlazorControlwork.Data
 {
@@ -41,6 +42,15 @@ namespace BlazorControlwork.Data
                 users.Add(user);
             }
             return users;
+        }
+
+        public static void UpgradeOne(string login, string seting, string item)
+        {
+            var client = new MongoClient();
+            var database = client.GetDatabase("UserBase");
+            var collection = database.GetCollection<User>("User");
+            var update = Builders<User>.Update.Set(seting, item);
+            collection.UpdateOne(x => x.Login == login, update);
         }
     }
 }

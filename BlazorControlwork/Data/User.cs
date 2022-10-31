@@ -12,6 +12,7 @@ namespace BlazorControlwork.Data
             LastName = lastName;
             Email = email;
             Password = password;
+            Photo = String.Empty;
         }
 
         [BsonId]

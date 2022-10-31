@@ -1,31 +1,43 @@
 ﻿using MongoDB.Driver.GridFS;
 using MongoDB.Driver;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace BlazorControlwork.Data
 {
     public class FileSystemService
     {
-        public void UploadImageToDb()
+        public void UploadImageToDb(IBrowserFile file, string path)
         {
             var client = new MongoClient("mongodb://localhost");
-            var database = client.GetDatabase("UserBase");
-            var collection = database.GetCollection<string>("Images");
+            var database = client.GetDatabase("Images");
             var gridFS = new GridFSBucket(database);
 
-            using (FileStream fs = new FileStream(@"C:\Users\iu709\OneDrive\Рабочий стол\1.png", FileMode.Open))
+            using (FileStream fs = new FileStream($"{path}", FileMode.Open))
             {
-                gridFS.UploadFromStream("sss.png", fs);
+                gridFS.UploadFromStream($"{file.Name}", fs);
             }
         }
 
-        public void DownloadToLocal()
+        public void UploadImageToUserDb(IBrowserFile file, string path)
         {
             var client = new MongoClient("mongodb://localhost");
-            var database = client.GetDatabase("Images321");
+            var database = client.GetDatabase("UserImages");
             var gridFS = new GridFSBucket(database);
-            using (FileStream fs = new FileStream($"{Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/Images/")}DeserializedBall.png", FileMode.CreateNew))
+
+            using (FileStream fs = new FileStream($"{path}", FileMode.Open))
             {
-                gridFS.DownloadToStreamByName("sss.jpg", fs);
+                gridFS.UploadFromStream($"{file.Name}", fs);
+            }
+        }
+
+        public void DownloadToLocal(User user, string path)
+        {
+            var client = new MongoClient("mongodb://localhost");
+            var database = client.GetDatabase("UserImages");
+            var gridFS = new GridFSBucket(database);
+            using (FileStream fs = new FileStream(path, FileMode.CreateNew))
+            {
+                gridFS.DownloadToStreamByName(user.Photo, fs);
             }
         }
     }

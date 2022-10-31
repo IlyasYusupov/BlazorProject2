@@ -19,7 +19,13 @@
               <form>
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form3Example1cg">Your Login</label>
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" @bind-value=Login/>
+                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" @onfocusout=CheckError @bind-value=Login />
+                    @if (ErrorLogin)
+                    {
+                        <br><div class="alert alert-danger" role="alert">
+                            Такой логин уже есть!!!
+                        </div>
+                    }
                 </div>
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form3Example1cg">Your Name</label>
@@ -80,10 +86,11 @@
     string RepeatPassword = "";
     bool ErrorPassword = false;
     bool ErrorInput = false;
+    bool ErrorLogin = false;
 
     private void RegistrClick()
     {
-        if(Login != "" && Name != "" && Surname != "" && Email != "" && Password != "" && RepeatPassword != "" )
+        if (Login != "" && Name != "" && Surname != "" && Email != "" && Password != "" && RepeatPassword != "" && !ErrorLogin && !ErrorInput && !ErrorLogin)
         {
             Mongo.AddToDB(new User(Login, Name,  Surname, Email, Password));
             manager.NavigateTo("authorization");
@@ -97,6 +104,18 @@
 
     private void CheckError()
     {
+        var users = Mongo.FindAll();
+        foreach(var user in users)
+        {
+            if (Login == user.Login)
+            {
+                ErrorLogin = true;
+                Login = "";
+            }
+            else{
+                ErrorLogin = false;
+            }
+        }
         if(Password != RepeatPassword)
         {
             ErrorPassword = true;
